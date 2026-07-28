@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bússola Mensal - Casa OS</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root {
+      --bg-pergaminho: #0d0a07;
+      --card-bg: rgba(23, 16, 11, 0.92);
+      --borda-dourada: #c5a059;
+      --borda-glow: rgba(197, 160, 89, 0.35);
+      --texto-primario: #e8d8c8;
+      --texto-dourado: #f0c987;
+      --verde-elfico: #81b29a;
+      --vermelho-pausa: #e07a5f;
+      --azul-infra: #a8dadc;
+      --rosa-danca: #e07a5f;
+      --fonte-titulo: 'Cinzel Decorative', serif;
+      --fonte-sub: 'Cinzel', serif;
+      --fonte-corpo: 'Quicksand', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-pergaminho);
+      color: var(--texto-primario);
+      font-family: var(--fonte-corpo);
+      margin: 0;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 900px;
+      background: var(--card-bg);
+      border: 2px solid var(--borda-dourada);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 0 15px var(--borda-glow);
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    h2 {
+      font-family: var(--fonte-titulo);
+      color: var(--texto-dourado);
+      font-size: 1.15rem;
+      text-align: center;
+      margin-top: 0;
+      border-bottom: 1px solid var(--borda-dourada);
+      padding-bottom: 8px;
+    }
+
+    .topo-mes {
+      text-align: center;
+      font-family: var(--fonte-sub);
+      color: var(--texto-dourado);
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+      background: rgba(0,0,0,0.4);
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(197, 160, 89, 0.2);
+    }
+
+    .painel-meta {
+      background: rgba(197, 160, 89, 0.08);
+      border: 1px dashed rgba(197, 160, 89, 0.3);
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-bottom: 14px;
+      font-size: 0.72rem;
+      display: flex;
+      justify-content: space-between;
+      color: var(--texto-dourado);
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* ESTEIRA DOS 30 DIAS DO MÊS */
+    .secao-30dias {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .secao-30dias-titulo {
+      font-family: var(--fonte-sub);
+      color: var(--azul-infra);
+      font-size: 0.82rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .esteira-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--borda-dourada) transparent;
+    }
+
+    .dia-card-30 {
+      min-width: 155px;
+      width: 155px;
+      height: 180px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 0.74rem;
+      flex-shrink: 0;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      transition: border-color 0.15s;
+      user-select: none;
+    }
+
+    .dia-card-30:hover {
+      border-color: var(--texto-dourado);
+    }
+
+    .dia-card-30.hoje {
+      border: 1px solid var(--texto-dourado);
+      background: rgba(197, 160, 89, 0.12);
+    }
+
+    .dia-30-head {
+      font-family: var(--fonte-sub);
+      font-weight: bold;
+      color: var(--texto-dourado);
+      border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-add-dia {
+      background: rgba(197, 160, 89, 0.2);
+      border: 1px solid var(--borda-dourada);
+      color: var(--texto-dourado);
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      padding: 0 5px;
+    }
+
+    .dia-30-countdown {
+      font-size: 0.65rem;
+      color: var(--verde-elfico);
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .lista-eventos-dia {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-right: 2px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(197, 160, 89, 0.4) transparent;
+    }
+
+    .tag-evento-30 {
+      background: rgba(168, 218, 220, 0.15);
+      border: 1px solid var(--azul-infra);
+      color: var(--azul-infra);
+      padding: 3px 5px;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      word-break: break-word;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+      line-height: 1.1;
+    }
+
+    .tag-danca {
+      background: rgba(224, 122, 95, 0.2);
+      border-color: var(--rosa-danca);
+      color: var(--rosa-danca);
+    }
+
+    /* BLOCOS DE CONTEÚDO */
+    .secao-bloco {
+      background: rgba(0,0,0,0.3);
+      border-left: 3px solid var(--borda-dourada);
+      padding: 10px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 12px;
+    }
+
+    .secao-titulo {
+      font-family: var(--fonte-sub);
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    textarea {
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      color: var(--texto-primario);
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-family: var(--fonte-corpo);
+      font-size: 0.8rem;
+      box-sizing: border-box;
+      resize: none;
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .grid-2col { grid-template-columns: 1fr; }
+    }
+
+    .btn-mov {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      color: var(--texto-primario);
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .btn-mov:hover { background: var(--borda-dourada); color: #0d0a07; }
+
+    .btn-salvar {
+      width: 100%;
+      background: linear-gradient(135deg, #c5a059, #81b29a);
+      border: none;
+      color: #0d0a07;
+      font-family: var(--fonte-sub);
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    /* MODAL INTERNO DA INTERFACE */
+    .modal-overlay {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
+      border-radius: 12px;
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-box {
+      background: var(--card-bg);
+      border: 2px solid var(--borda-dourada);
+      border-radius: 8px;
+      padding: 16px;
+      width: 90%;
+      max-width: 380px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+
+    .modal-titulo {
+      font-family: var(--fonte-sub);
+      color: var(--texto-dourado);
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .modal-input {
+      width: 100%;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid var(--borda-dourada);
+      color: var(--texto-primario);
+      padding: 8px;
+      border-radius: 4px;
+      font-family: var(--fonte-corpo);
+      font-size: 0.8rem;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+    }
+
+    .modal-botoes {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .btn-modal {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--borda-dourada);
+      color: var(--texto-primario);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-family: var(--fonte-sub);
+    }
+
+    .btn-modal-salvar {
+      background: linear-gradient(135deg, #c5a059, #81b29a);
+      color: #0d0a07;
+      font-weight: bold;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>📜 Bússola Mensal & Visão Tática</h2>
+
+    <div class="topo-mes" id="mes-atual-label">Carregando Mês...</div>
+
+    <div class="painel-meta">
+      <span>📅 Data Base: <strong id="data-referencia">--/--/----</strong></span>
+      <span>⏱️ Atualizado (Rio de Janeiro): <strong id="hora-rio">--:--:--</strong></span>
+    </div>
+
+    <!-- ESTEIRA VISUAL DOS 30 DIAS -->
+    <div class="secao-30dias">
+      <div class="secao-30dias-titulo">
+        <span><i class="fa-solid fa-timeline"></i> ESTEIRA DOS PRÓXIMOS 30 DIAS (2 cliques para add evento)</span>
+      </div>
+      <div class="esteira-scroll" id="container-esteira-30">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </div>
+
+    <!-- 🎯 INICIATIVAS / FOCOS PRINCIPAIS -->
+    <div class="secao-bloco" style="border-left-color: var(--verde-elfico);">
+      <div class="secao-titulo" style="color: var(--verde-elfico);">
+        <span><i class="fa-solid fa-bullseye"></i> 🎯 Focos do Mês (Máximo 3)</span>
+        <button class="btn-mov" onclick="moverFocosParaSemana()">🗓️ Enviar p/ Semana</button>
+      </div>
+      <textarea id="focos-mes" rows="3" placeholder="1. Avanço no ENEM / Psicologia&#10;2. Hard Stop de Arquivos&#10;3. Projeto Tático..."></textarea>
+    </div>
+
+    <div class="grid-2col">
+      <!-- 🛑 PAUSADOS / O QUE NÃO FAZER -->
+      <div class="secao-bloco" style="border-left-color: var(--vermelho-pausa);">
+        <div class="secao-titulo" style="color: var(--vermelho-pausa);">
+          <span><i class="fa-solid fa-ban"></i> 🛑 Não-Fazer / Pausados</span>
+        </div>
+        <textarea id="nao-fazer" rows="4" placeholder="Proibido de consumir energia neste mês..."></textarea>
+      </div>
+
+      <!-- 🗓️ EVENTOS & MARCOS CHAVE -->
+      <div class="secao-bloco" style="border-left-color: var(--texto-dourado);">
+        <div class="secao-titulo" style="color: var(--texto-dourado);">
+          <span><i class="fa-solid fa-calendar-star"></i> 🗓️ Marcos & Datas Chave</span>
+        </div>
+        <textarea id="marcos-mes" rows="4" placeholder="Datas marcantes, revisões, consultas ou metas..."></textarea>
+      </div>
+    </div>
+
+    <button class="btn-salvar" onclick="salvarMensal()">🌿 Sincronizar Bússola Mensal</button>
+
+    <!-- MODAL INTERNO DA INTERFACE -->
+    <div class="modal-overlay" id="modal-dia">
+      <div class="modal-box">
+        <div class="modal-titulo" id="modal-titulo-txt">📍 Adicionar Evento/Aniversário</div>
+        <input type="text" id="modal-input-txt" class="modal-input" placeholder="Ex: Aniversário da Mãe, Exame, Prazo..." onkeypress="if(event.key==='Enter') salvarEventoModal()" />
+        <div class="modal-botoes">
+          <button class="btn-modal" onclick="fecharModal()">Cancelar</button>
+          <button class="btn-modal btn-modal-salvar" onclick="salvarEventoModal()">Salvar no Dia</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD19AiSaJosyhNL8iz4J-D1mHgbu-MOKm4",
+      authDomain: "planejamentos-83b23.firebaseapp.com",
+      projectId: "planejamentos-83b23",
+      storageBucket: "planejamentos-83b23.firebasestorage.app",
+      messagingSenderId: "651538842400",
+      appId: "1:651538842400:web:5d0b45e7df8f2ac1f0cd45",
+      measurementId: "G-GK5XJ7FZN1"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const hojeDataObj = new Date();
+    const meses = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
+    const mesNome = meses[hojeDataObj.getMonth()];
+    const ano = hojeDataObj.getFullYear();
+    const docMesId = `${ano}-${(hojeDataObj.getMonth() + 1).toString().padStart(2, '0')}`;
+
+    document.getElementById('mes-atual-label').innerText = `BÚSSOLA DE ${mesNome} DE ${ano}`;
+    document.getElementById('data-referencia').innerText = hojeDataObj.toLocaleDateString('pt-BR');
+
+    function getHoraRioStr(dateObj) {
+      const d = dateObj || new Date();
+      return d.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ' (' + d.toLocaleDateString('pt-BR') + ')';
+    }
+
+    function getWeekNumber(d) {
+      d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+      var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+      return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    }
+    const docSemanaId = `${ano}-W${getWeekNumber(hojeDataObj)}`;
+
+    let eventosMes = {};
+    let dataKeyModalAtiva = null;
+
+    // Escuta em Tempo Real do Ritmo Mensal
+    db.collection("ritmo_mensal").doc(docMesId).onSnapshot(doc => {
+      if (doc.exists) {
+        const d = doc.data();
+        if (d.focos) document.getElementById('focos-mes').value = d.focos;
+        if (d.naoFazer) document.getElementById('nao-fazer').value = d.naoFazer;
+        if (d.marcos) document.getElementById('marcos-mes').value = d.marcos;
+        if (d.eventos) eventosMes = d.eventos;
+        if (d.atualizadoEmTexto) document.getElementById('hora-rio').innerText = d.atualizadoEmTexto;
+        else document.getElementById('hora-rio').innerText = getHoraRioStr();
+      } else {
+        document.getElementById('hora-rio').innerText = getHoraRioStr();
+      }
+      renderizarEsteira30();
+    });
+
+    // RENDERIZA A ESTEIRA DOS 30 DIAS
+    function renderizarEsteira30() {
+      const container = document.getElementById('container-esteira-30');
+      let html = '';
+
+      for (let i = 0; i < 30; i++) {
+        const d = new Date();
+        d.setDate(hojeDataObj.getDate() + i);
+        const dataKey = d.toLocaleDateString('pt-BR').replace(/\//g, '-');
+        const diaSemanaStr = d.toLocaleDateString('pt-BR', { weekday: 'short' }).toUpperCase();
+        const diaNum = d.getDate().toString().padStart(2, '0');
+        const mesNum = (d.getMonth() + 1).toString().padStart(2, '0');
+
+        let countdown = i === 0 ? "HOJE ⭐️" : (i === 1 ? "AMANHÃ ⏳" : `Em ${i} dias`);
+        let dancaTag = '';
+        const dayIdx = d.getDay();
+        if (dayIdx === 1) dancaTag = '<div class="tag-evento-30 tag-danca">🕺 Bachata</div>';
+        if (dayIdx === 2) dancaTag = '<div class="tag-evento-30 tag-danca">💃 Zouk</div>';
+        if (dayIdx === 3) dancaTag = '<div class="tag-evento-30">🏥 Terapia</div>';
+
+        const evtsDoDia = eventosMes[dataKey] || [];
+        let htmlEvts = '';
+        evtsDoDia.forEach((ev, idx) => {
+          htmlEvts += `
+            <div class="tag-evento-30">
+              <span>${ev}</span>
+              <button onclick="event.stopPropagation(); removerEventoMes('${dataKey}', ${idx})" style="background:none;border:none;color:#e07a5f;cursor:pointer;font-size:0.65rem;padding:0;">✖</button>
+            </div>
+          `;
+        });
+
+        html += `
+          <div class="dia-card-30 ${i === 0 ? 'hoje' : ''}" ondblclick="abrirModalDia('${dataKey}', '${diaNum}/${mesNum} - ${diaSemanaStr}')" title="Dois cliques para adicionar evento">
+            <div class="dia-30-head">
+              <span>${diaNum}/${mesNum} (${diaSemanaStr})</span>
+              <button class="btn-add-dia" onclick="event.stopPropagation(); abrirModalDia('${dataKey}', '${diaNum}/${mesNum} - ${diaSemanaStr}')">+</button>
+            </div>
+            <div class="dia-30-countdown">${countdown}</div>
+            <div class="lista-eventos-dia">
+              ${dancaTag}
+              ${htmlEvts}
+            </div>
+          </div>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    function abrirModalDia(dataKey, dataFormatada) {
+      dataKeyModalAtiva = dataKey;
+      document.getElementById('modal-titulo-txt').innerText = `📍 Adicionar em ${dataFormatada}`;
+      document.getElementById('modal-input-txt').value = '';
+      document.getElementById('modal-dia').style.display = 'flex';
+      setTimeout(() => document.getElementById('modal-input-txt').focus(), 100);
+    }
+
+    function fecharModal() {
+      document.getElementById('modal-dia').style.display = 'none';
+      dataKeyModalAtiva = null;
+    }
+
+    async function salvarEventoModal() {
+      const txt = document.getElementById('modal-input-txt').value.trim();
+      if (txt && dataKeyModalAtiva) {
+        if (!eventosMes[dataKeyModalAtiva]) eventosMes[dataKeyModalAtiva] = [];
+        eventosMes[dataKeyModalAtiva].push(txt);
+        fecharModal();
+        await salvarMensal();
+      }
+    }
+
+    async function removerEventoMes(key, index) {
+      if (eventosMes[key]) {
+        eventosMes[key].splice(index, 1);
+        if (eventosMes[key].length === 0) delete eventosMes[key];
+        await salvarMensal();
+      }
+    }
+
+    async function moverFocosParaSemana() {
+      const focosTxt = document.getElementById('focos-mes').value.trim();
+      if (!focosTxt) return alert("Digite ao menos um foco no mês antes de enviar.");
+
+      try {
+        const docRef = db.collection("ritmo_semanal").doc(docSemanaId);
+        const docSnap = await docRef.get();
+        let focosAtuais = (docSnap.exists && docSnap.data().focos) ? docSnap.data().focos : {};
+        
+        const diaHojeKey = ['dom','seg','ter','qua','qui','sex','sab'][hojeDataObj.getDay()];
+        const textoAtual = focosAtuais[diaHojeKey] || '';
+        focosAtuais[diaHojeKey] = textoAtual ? `${textoAtual} | 🎯 Foco Mês: ${focosTxt}` : `🎯 Foco Mês: ${focosTxt}`;
+
+        await docRef.set({ focos: focosAtuais }, { merge: true });
+        alert(`🗓️ FOCOS ENVIADOS! Adicionados aos focos da Semana ${docSemanaId}.`);
+      } catch (e) {
+        alert("Erro ao mover focos para a semana.");
+      }
+    }
+
+    async function salvarMensal() {
+      const horaStr = getHoraRioStr();
+      document.getElementById('hora-rio').innerText = horaStr;
+
+      await db.collection("ritmo_mensal").doc(docMesId).set({
+        mes: mesNome,
+        ano: ano,
+        focos: document.getElementById('focos-mes').value.trim(),
+        naoFazer: document.getElementById('nao-fazer').value.trim(),
+        marcos: document.getElementById('marcos-mes').value.trim(),
+        eventos: eventosMes,
+        atualizadoEmTexto: horaStr,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }
+  </script>
+</body>
+</html>
