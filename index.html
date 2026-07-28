@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bússola Mensal - Casa OS</title>
+  <title>Manutenção & Visão Quinzenal - Casa OS</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +22,6 @@
       --texto-primario: #e8d8c8;
       --texto-dourado: #f0c987;
       --verde-elfico: #81b29a;
-      --vermelho-pausa: #e07a5f;
       --azul-infra: #a8dadc;
       --rosa-danca: #e07a5f;
       --fonte-titulo: 'Cinzel Decorative', serif;
@@ -42,7 +41,7 @@
 
     .card {
       width: 100%;
-      max-width: 900px;
+      max-width: 880px;
       background: var(--card-bg);
       border: 2px solid var(--borda-dourada);
       border-radius: 12px;
@@ -62,17 +61,17 @@
       padding-bottom: 8px;
     }
 
-    .topo-mes {
-      text-align: center;
-      font-family: var(--fonte-sub);
-      color: var(--texto-dourado);
-      font-size: 0.9rem;
-      font-weight: bold;
-      margin-bottom: 8px;
+    .topo-info {
       background: rgba(0,0,0,0.4);
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid rgba(197, 160, 89, 0.2);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
     }
 
     .painel-meta {
@@ -89,8 +88,8 @@
       gap: 6px;
     }
 
-    /* ESTEIRA DOS 30 DIAS DO MÊS */
-    .secao-30dias {
+    /* ESTEIRA DOS 15 DIAS AMPLIADA */
+    .secao-15dias {
       background: rgba(0,0,0,0.3);
       border: 1px solid rgba(197, 160, 89, 0.3);
       border-radius: 8px;
@@ -98,7 +97,7 @@
       margin-bottom: 16px;
     }
 
-    .secao-30dias-titulo {
+    .secao-15dias-titulo {
       font-family: var(--fonte-sub);
       color: var(--azul-infra);
       font-size: 0.82rem;
@@ -118,7 +117,7 @@
       scrollbar-color: var(--borda-dourada) transparent;
     }
 
-    .dia-card-30 {
+    .dia-card-15 {
       min-width: 155px;
       width: 155px;
       height: 180px;
@@ -136,14 +135,14 @@
       user-select: none;
     }
 
-    .dia-card-30:hover { border-color: var(--texto-dourado); }
+    .dia-card-15:hover { border-color: var(--texto-dourado); }
 
-    .dia-card-30.hoje {
+    .dia-card-15.hoje {
       border: 1px solid var(--texto-dourado);
       background: rgba(197, 160, 89, 0.12);
     }
 
-    .dia-30-head {
+    .dia-15-head {
       font-family: var(--fonte-sub);
       font-weight: bold;
       color: var(--texto-dourado);
@@ -165,7 +164,7 @@
       padding: 0 5px;
     }
 
-    .dia-30-countdown {
+    .dia-15-countdown {
       font-size: 0.65rem;
       color: var(--verde-elfico);
       margin-bottom: 6px;
@@ -183,7 +182,7 @@
       scrollbar-color: rgba(197, 160, 89, 0.4) transparent;
     }
 
-    .tag-evento-30 {
+    .tag-evento-15 {
       background: rgba(168, 218, 220, 0.15);
       border: 1px solid var(--azul-infra);
       color: var(--azul-infra);
@@ -204,59 +203,144 @@
       color: var(--rosa-danca);
     }
 
-    /* BLOCOS DE CONTEÚDO MENSAL */
-    .secao-bloco {
-      background: rgba(0,0,0,0.3);
-      border-left: 3px solid var(--borda-dourada);
-      padding: 10px;
-      border-radius: 0 6px 6px 0;
-      margin-bottom: 12px;
-    }
-
-    .secao-titulo {
-      font-family: var(--fonte-sub);
-      font-size: 0.8rem;
-      font-weight: bold;
-      margin-bottom: 6px;
+    /* FORMS E PILARES */
+    .form-add {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: rgba(0,0,0,0.3);
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      margin-bottom: 16px;
     }
 
-    textarea {
-      width: 100%;
-      background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(197, 160, 89, 0.3);
+    input[type="text"], select {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid var(--borda-dourada);
       color: var(--texto-primario);
       border-radius: 4px;
       padding: 6px 8px;
       font-family: var(--fonte-corpo);
       font-size: 0.8rem;
       box-sizing: border-box;
-      resize: none;
     }
 
-    .grid-2col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    input[type="text"] { flex: 1; min-width: 180px; }
 
-    @media (max-width: 600px) {
-      .grid-2col { grid-template-columns: 1fr; }
-    }
-
-    .btn-salvar {
-      width: 100%;
+    .btn-add {
       background: linear-gradient(135deg, #c5a059, #81b29a);
       border: none;
       color: #0d0a07;
       font-family: var(--fonte-sub);
       font-weight: bold;
-      padding: 10px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: 4px;
       cursor: pointer;
-      margin-top: 10px;
+    }
+
+    .grid-pilaress {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 680px) {
+      .grid-pilaress { grid-template-columns: 1fr; }
+    }
+
+    .col-pilar {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .pilar-titulo {
+      font-family: var(--fonte-sub);
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--texto-dourado);
+      border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .item-infra {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: rgba(0,0,0,0.5);
+      padding: 6px 8px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      border: 1px solid rgba(197, 160, 89, 0.15);
+      font-size: 0.78rem;
+    }
+
+    .item-infra.concluido { opacity: 0.5; }
+
+    .item-infra-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .item-texto { cursor: pointer; flex: 1; }
+
+    .tag-ciclo {
+      font-size: 0.62rem;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(168, 218, 220, 0.2);
+      color: var(--azul-infra);
+      border: 1px solid var(--azul-infra);
+    }
+
+    .item-infra-acoes {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      padding-top: 4px;
+      border-top: 1px solid rgba(197, 160, 89, 0.1);
+    }
+
+    .btn-mov {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      color: var(--texto-primario);
+      font-size: 0.65rem;
+      padding: 2px 5px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .btn-mov:hover { background: var(--borda-dourada); color: #0d0a07; }
+
+    .btn-icon {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 0.72rem;
+      padding: 2px;
+    }
+
+    .btn-edit { color: var(--texto-dourado); }
+    .btn-del { color: #e07a5f; }
+
+    .edit-box {
+      display: flex;
+      gap: 4px;
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .edit-box input {
+      flex: 1;
+      font-size: 0.75rem;
+      padding: 2px 4px;
     }
 
     /* MODAL INTERNO DA INTERFACE */
@@ -331,52 +415,61 @@
 <body>
 
   <div class="card">
-    <h2>📜 Bússola Mensal & Visão Tática</h2>
+    <h2>🛠️ Manutenção & Visão Quinzenal</h2>
 
-    <div class="topo-mes" id="mes-atual-label">Carregando Mês...</div>
+    <div class="topo-info">
+      <div><i class="fa-solid fa-calendar-days"></i> <strong>Sustentação Quinzenal da Rotina</strong></div>
+      <div style="color: var(--azul-infra);" id="status-ciclo">Sincronizado com Agenda Central</div>
+    </div>
 
     <div class="painel-meta">
       <span>📅 Data Base: <strong id="data-referencia">--/--/----</strong></span>
-      <span>⏱️ Sincronizado (Rio de Janeiro): <strong id="hora-rio">--:--:--</strong></span>
+      <span>⏱️ Atualizado (Rio de Janeiro): <strong id="hora-rio">--:--:--</strong></span>
     </div>
 
-    <!-- ESTEIRA VISUAL DOS 30 DIAS -->
-    <div class="secao-30dias">
-      <div class="secao-30dias-titulo">
-        <span><i class="fa-solid fa-timeline"></i> ESTEIRA DOS PRÓXIMOS 30 DIAS (2 cliques para add evento)</span>
+    <!-- ESTEIRA DOS PRÓXIMOS 15 DIAS -->
+    <div class="secao-15dias">
+      <div class="secao-15dias-titulo">
+        <span><i class="fa-solid fa-timeline"></i> ESTEIRA DOS PRÓXIMOS 15 DIAS (Agenda Unificada)</span>
       </div>
-      <div class="esteira-scroll" id="container-esteira-30">
+      <div class="esteira-scroll" id="container-esteira-15">
         <!-- Renderizado dinamicamente via JS -->
       </div>
     </div>
 
-    <!-- 🎯 INICIATIVAS / FOCOS PRINCIPAIS -->
-    <div class="secao-bloco" style="border-left-color: var(--verde-elfico);">
-      <div class="secao-titulo" style="color: var(--verde-elfico);">
-        <span><i class="fa-solid fa-bullseye"></i> 🎯 Focos do Mês (Máximo 3)</span>
-      </div>
-      <textarea id="focos-mes" rows="3" placeholder="1. Avanço no ENEM / Psicologia&#10;2. Hard Stop de Arquivos&#10;3. Projeto Tático..."></textarea>
+    <!-- ADICIONAR ITEM DE MANUTENÇÃO CÍCLICA -->
+    <div class="form-add">
+      <input type="text" id="novo-item" placeholder="Ex: Comprar ração/feno, Trocar filtro..." onkeypress="if(event.key==='Enter') adicionarItem()" />
+      <select id="pilar-destino">
+        <option value="casa">🏠 Casa & Pets</option>
+        <option value="loja">🏪 Loja & Auto</option>
+        <option value="saude">🧠 Saúde & Infra</option>
+      </select>
+      <select id="ciclo-frequencia">
+        <option value="Quinzenal">Quinzenal 🔄</option>
+        <option value="Mensal">Mensal 📅</option>
+        <option value="Semestral">Raro/Semestral 🗓️</option>
+      </select>
+      <button class="btn-add" onclick="adicionarItem()">+ Add</button>
     </div>
 
-    <div class="grid-2col">
-      <!-- 🛑 PAUSADOS / O QUE NÃO FAZER -->
-      <div class="secao-bloco" style="border-left-color: var(--vermelho-pausa);">
-        <div class="secao-titulo" style="color: var(--vermelho-pausa);">
-          <span><i class="fa-solid fa-ban"></i> 🛑 Não-Fazer / Pausados</span>
-        </div>
-        <textarea id="nao-fazer" rows="4" placeholder="Proibido de consumir energia neste mês..."></textarea>
+    <!-- 3 PILARES -->
+    <div class="grid-pilaress">
+      <div class="col-pilar" style="border-top: 3px solid var(--verde-elfico);">
+        <div class="pilar-titulo" style="color: var(--verde-elfico);">🏠 CASA & PETS</div>
+        <div id="lista-casa">Carregando...</div>
       </div>
 
-      <!-- 🗓️ EVENTOS & MARCOS CHAVE -->
-      <div class="secao-bloco" style="border-left-color: var(--texto-dourado);">
-        <div class="secao-titulo" style="color: var(--texto-dourado);">
-          <span><i class="fa-solid fa-calendar-star"></i> 🗓️ Marcos & Datas Chave</span>
-        </div>
-        <textarea id="marcos-mes" rows="4" placeholder="Datas marcantes, revisões, consultas ou metas..."></textarea>
+      <div class="col-pilar" style="border-top: 3px solid var(--borda-dourada);">
+        <div class="pilar-titulo" style="color: var(--texto-dourado);">🏪 LOJA & AUTO</div>
+        <div id="lista-loja">Carregando...</div>
+      </div>
+
+      <div class="col-pilar" style="border-top: 3px solid var(--azul-infra);">
+        <div class="pilar-titulo" style="color: var(--azul-infra);">🧠 SAÚDE & INFRA</div>
+        <div id="lista-saude">Carregando...</div>
       </div>
     </div>
-
-    <button class="btn-salvar" onclick="salvarMensal()">🌿 Sincronizar Bússola Mensal</button>
 
     <!-- MODAL INTERNO DA INTERFACE -->
     <div class="modal-overlay" id="modal-dia">
@@ -407,12 +500,7 @@
     const db = firebase.firestore();
 
     const hojeDataObj = new Date();
-    const meses = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
-    const mesNome = meses[hojeDataObj.getMonth()];
-    const ano = hojeDataObj.getFullYear();
-    const docMesId = `${ano}-${(hojeDataObj.getMonth() + 1).toString().padStart(2, '0')}`;
-
-    document.getElementById('mes-atual-label').innerText = `BÚSSOLA DE ${mesNome} DE ${ano}`;
+    const docIdHoje = hojeDataObj.toLocaleDateString('pt-BR').replace(/\//g, '-');
     document.getElementById('data-referencia').innerText = hojeDataObj.toLocaleDateString('pt-BR');
 
     function getHoraRioStr(dateObj) {
@@ -420,24 +508,30 @@
       return d.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ' (' + d.toLocaleDateString('pt-BR') + ')';
     }
 
+    let itensManutencao = [];
     let eventosGerais = {};
+    let itemEmEdicaoId = null;
     let dataKeyModalAtiva = null;
 
-    // 1. ESCUTA O RITMO MENSAL
-    db.collection("ritmo_mensal").doc(docMesId).onSnapshot(doc => {
+    // 1. ESCUTA A MANUTENÇÃO CÍCLICA
+    db.collection("infraestrutura").doc("manutencao_quinzenal").onSnapshot(doc => {
       if (doc.exists) {
         const d = doc.data();
-        if (d.focos) document.getElementById('focos-mes').value = d.focos;
-        if (d.naoFazer) document.getElementById('nao-fazer').value = d.naoFazer;
-        if (d.marcos) document.getElementById('marcos-mes').value = d.marcos;
+        if (d.itens) itensManutencao = d.itens;
         if (d.atualizadoEmTexto) document.getElementById('hora-rio').innerText = d.atualizadoEmTexto;
         else document.getElementById('hora-rio').innerText = getHoraRioStr();
       } else {
-        document.getElementById('hora-rio').innerText = getHoraRioStr();
+        itensManutencao = [
+          { id: 1, texto: 'Suprimentos dos Pets (Ração/Feno)', pilar: 'casa', ciclo: 'Quinzenal', concluido: false },
+          { id: 2, texto: 'Limpeza de Arquivos Digitais e Downloads', pilar: 'loja', ciclo: 'Quinzenal', concluido: false },
+          { id: 3, texto: 'Conferir Estoque de Suplementos / Meds', pilar: 'saude', ciclo: 'Mensal', concluido: false }
+        ];
+        salvarFirestore();
       }
+      renderizarPilares();
     });
 
-    // 2. ESCUTA A COLEÇÃO CENTRAL DE EVENTOS POR DATA (Sincronizada em todos os painéis)
+    // 2. ESCUTA A AGENDA UNIFICADA POR DATA (Mesmo banco lido pela Mensal)
     db.collection("agenda_eventos").onSnapshot(snapshot => {
       eventosGerais = {};
       snapshot.forEach(doc => {
@@ -445,15 +539,15 @@
           eventosGerais[doc.id] = doc.data().eventos;
         }
       });
-      renderizarEsteira30();
+      renderizarEsteira15();
     });
 
-    // RENDERIZA A ESTEIRA DOS 30 DIAS DO MÊS
-    function renderizarEsteira30() {
-      const container = document.getElementById('container-esteira-30');
+    // RENDERIZA A ESTEIRA DOS 15 DIAS
+    function renderizarEsteira15() {
+      const container = document.getElementById('container-esteira-15');
       let html = '';
 
-      for (let i = 0; i < 30; i++) {
+      for (let i = 0; i < 15; i++) {
         const d = new Date();
         d.setDate(hojeDataObj.getDate() + i);
         const dataKey = d.toLocaleDateString('pt-BR').replace(/\//g, '-');
@@ -464,15 +558,15 @@
         let countdown = i === 0 ? "HOJE ⭐️" : (i === 1 ? "AMANHÃ ⏳" : `Em ${i} dias`);
         let dancaTag = '';
         const dayIdx = d.getDay();
-        if (dayIdx === 1) dancaTag = '<div class="tag-evento-30 tag-danca">🕺 Bachata</div>';
-        if (dayIdx === 2) dancaTag = '<div class="tag-evento-30 tag-danca">💃 Zouk</div>';
-        if (dayIdx === 3) dancaTag = '<div class="tag-evento-30">🏥 Terapia</div>';
+        if (dayIdx === 1) dancaTag = '<div class="tag-evento-15 tag-danca">🕺 Bachata</div>';
+        if (dayIdx === 2) dancaTag = '<div class="tag-evento-15 tag-danca">💃 Zouk</div>';
+        if (dayIdx === 3) dancaTag = '<div class="tag-evento-15">🏥 Terapia</div>';
 
         const evtsDoDia = eventosGerais[dataKey] || [];
         let htmlEvts = '';
         evtsDoDia.forEach((ev, idx) => {
           htmlEvts += `
-            <div class="tag-evento-30">
+            <div class="tag-evento-15">
               <span>${ev}</span>
               <button onclick="event.stopPropagation(); removerEventoData('${dataKey}', ${idx})" style="background:none;border:none;color:#e07a5f;cursor:pointer;font-size:0.65rem;padding:0;">✖</button>
             </div>
@@ -480,12 +574,12 @@
         });
 
         html += `
-          <div class="dia-card-30 ${i === 0 ? 'hoje' : ''}" ondblclick="abrirModalDia('${dataKey}', '${diaNum}/${mesNum} - ${diaSemanaStr}')" title="Dois cliques para adicionar evento">
-            <div class="dia-30-head">
+          <div class="dia-card-15 ${i === 0 ? 'hoje' : ''}" ondblclick="abrirModalDia('${dataKey}', '${diaNum}/${mesNum} - ${diaSemanaStr}')" title="Dois cliques para adicionar evento">
+            <div class="dia-15-head">
               <span>${diaNum}/${mesNum} (${diaSemanaStr})</span>
               <button class="btn-add-dia" onclick="event.stopPropagation(); abrirModalDia('${dataKey}', '${diaNum}/${mesNum} - ${diaSemanaStr}')">+</button>
             </div>
-            <div class="dia-30-countdown">${countdown}</div>
+            <div class="dia-15-countdown">${countdown}</div>
             <div class="lista-eventos-dia">
               ${dancaTag}
               ${htmlEvts}
@@ -538,19 +632,124 @@
       }
     }
 
-    async function salvarMensal() {
+    // MANUTENÇÃO CÍCLICA
+    async function adicionarItem() {
+      const input = document.getElementById('novo-item');
+      const txt = input.value.trim();
+      if (!txt) return;
+
+      const pilar = document.getElementById('pilar-destino').value;
+      const ciclo = document.getElementById('ciclo-frequencia').value;
+
+      itensManutencao.push({
+        id: Date.now(),
+        texto: txt,
+        pilar: pilar,
+        ciclo: ciclo,
+        concluido: false
+      });
+
+      input.value = '';
+      await salvarFirestore();
+    }
+
+    async function alternarConcluido(id) {
+      itensManutencao = itensManutencao.map(i => i.id === id ? { ...i, concluido: !i.concluido } : i);
+      await salvarFirestore();
+    }
+
+    async function excluirItem(id) {
+      itensManutencao = itensManutencao.filter(i => i.id !== id);
+      await salvarFirestore();
+    }
+
+    function iniciarEdicao(id) { itemEmEdicaoId = id; renderizarPilares(); }
+    function cancelarEdicao() { itemEmEdicaoId = null; renderizarPilares(); }
+
+    async function salvarEdicao(id) {
+      const input = document.getElementById(`edit-input-${id}`);
+      if(input && input.value.trim()) {
+        itensManutencao = itensManutencao.map(i => i.id === id ? { ...i, texto: input.value.trim() } : i);
+        itemEmEdicaoId = null;
+        await salvarFirestore();
+      }
+    }
+
+    async function anteciparParaHoje(texto) {
+      try {
+        const docRef = db.collection("ciclo_diario").doc(docIdHoje);
+        const docSnap = await docRef.get();
+        let tarefasAtuais = (docSnap.exists && docSnap.data().tarefas) ? docSnap.data().tarefas : [];
+
+        tarefasAtuais.push({
+          id: Date.now(),
+          texto: `🛠️ ${texto}`,
+          periodo: 'geral',
+          concluida: false
+        });
+
+        await docRef.set({ tarefas: tarefasAtuais }, { merge: true });
+        alert(`⬆️ ANTECIPADO! "🛠️ ${texto}" foi enviado para HOJE!`);
+      } catch (e) {
+        alert("Erro ao antecipar para o dia de hoje.");
+      }
+    }
+
+    async function salvarFirestore() {
       const horaStr = getHoraRioStr();
       document.getElementById('hora-rio').innerText = horaStr;
 
-      await db.collection("ritmo_mensal").doc(docMesId).set({
-        mes: mesNome,
-        ano: ano,
-        focos: document.getElementById('focos-mes').value.trim(),
-        naoFazer: document.getElementById('nao-fazer').value.trim(),
-        marcos: document.getElementById('marcos-mes').value.trim(),
+      await db.collection("infraestrutura").doc("manutencao_quinzenal").set({
+        itens: itensManutencao,
         atualizadoEmTexto: horaStr,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
+      });
+    }
+
+    function renderizarPilares() {
+      ['casa', 'loja', 'saude'].forEach(p => {
+        const container = document.getElementById('lista-' + p);
+        const filtrados = itensManutencao.filter(i => i.pilar === p);
+
+        if (filtrados.length === 0) {
+          container.innerHTML = '<p style="font-size:0.72rem; color:#aaa; margin:0;">Nenhum item.</p>';
+          return;
+        }
+
+        let html = '';
+        filtrados.forEach(i => {
+          const isEditing = itemEmEdicaoId === i.id;
+
+          html += `
+            <div class="item-infra ${i.concluido ? 'concluido' : ''}">
+              <div class="item-infra-top">
+                <input type="checkbox" ${i.concluido ? 'checked' : ''} onclick="alternarConcluido(${i.id})" />
+                <div class="item-texto" onclick="iniciarEdicao(${i.id})">
+                  <span style="${i.concluido ? 'text-decoration: line-through;' : ''}">${i.texto}</span>
+                  <span class="tag-ciclo">${i.ciclo}</span>
+                </div>
+              </div>
+              
+              <div class="item-infra-acoes">
+                <button class="btn-mov" onclick="anteciparParaHoje('${i.texto.replace(/'/g, "\\'")}')" title="Antecipar para Hoje">⬆️ HOJE</button>
+                <div>
+                  <button class="btn-icon btn-edit" onclick="iniciarEdicao(${i.id})" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                  <button class="btn-icon btn-del" onclick="excluirItem(${i.id})" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </div>
+
+              ${isEditing ? `
+                <div class="edit-box">
+                  <input type="text" id="edit-input-${i.id}" value="${i.texto}" onkeypress="if(event.key==='Enter') salvarEdicao(${i.id})" />
+                  <button class="btn-icon btn-edit" onclick="salvarEdicao(${i.id})">💾</button>
+                  <button class="btn-icon btn-del" onclick="cancelarEdicao()">✖</button>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      });
     }
   </script>
 </body>
