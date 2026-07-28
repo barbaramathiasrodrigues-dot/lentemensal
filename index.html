@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bússola Mensal Omniconectada - Casa OS</title>
+  <title>Bússola Mensal - Casa OS</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +42,7 @@
 
     .card {
       width: 100%;
-      max-width: 920px;
+      max-width: 900px;
       background: var(--card-bg);
       border: 2px solid var(--borda-dourada);
       border-radius: 12px;
@@ -87,85 +87,6 @@
       color: var(--texto-dourado);
       flex-wrap: wrap;
       gap: 6px;
-    }
-
-    /* GRID DE SENSORES DO ECOSSISTEMA */
-    .grid-sensores {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    @media (max-width: 650px) {
-      .grid-sensores { grid-template-columns: 1fr; }
-    }
-
-    .sensor-card {
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(197, 160, 89, 0.25);
-      border-radius: 6px;
-      padding: 8px 10px;
-      font-size: 0.74rem;
-    }
-
-    .sensor-titulo {
-      font-family: var(--fonte-sub);
-      color: var(--texto-dourado);
-      font-weight: bold;
-      border-bottom: 1px solid rgba(197, 160, 89, 0.15);
-      padding-bottom: 3px;
-      margin-bottom: 5px;
-      font-size: 0.72rem;
-    }
-
-    /* LEITURA DA SEMANA ATIVA */
-    .painel-semana-ativa {
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(197, 160, 89, 0.3);
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 16px;
-      font-size: 0.78rem;
-    }
-
-    .semana-ativa-titulo {
-      font-family: var(--fonte-sub);
-      color: var(--texto-dourado);
-      font-weight: bold;
-      border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-      padding-bottom: 4px;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    .grid-dias-semana-preview {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 6px;
-    }
-
-    @media (max-width: 650px) {
-      .grid-dias-semana-preview { grid-template-columns: 1fr; }
-    }
-
-    .box-dia-prev {
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(197, 160, 89, 0.15);
-      border-radius: 4px;
-      padding: 6px;
-      font-size: 0.7rem;
-    }
-
-    .box-dia-prev-head {
-      font-family: var(--fonte-sub);
-      color: var(--texto-dourado);
-      font-weight: bold;
-      margin-bottom: 2px;
-      text-align: center;
     }
 
     /* ESTEIRA DOS 30 DIAS DO MÊS */
@@ -283,7 +204,7 @@
       color: var(--rosa-danca);
     }
 
-    /* BLOCOS DE CONTEÚDO */
+    /* BLOCOS DE CONTEÚDO MENSAL */
     .secao-bloco {
       background: rgba(0,0,0,0.3);
       border-left: 3px solid var(--borda-dourada);
@@ -324,18 +245,6 @@
     @media (max-width: 600px) {
       .grid-2col { grid-template-columns: 1fr; }
     }
-
-    .btn-mov {
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(197, 160, 89, 0.3);
-      color: var(--texto-primario);
-      font-size: 0.65rem;
-      padding: 2px 6px;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-
-    .btn-mov:hover { background: var(--borda-dourada); color: #0d0a07; }
 
     .btn-salvar {
       width: 100%;
@@ -422,45 +331,13 @@
 <body>
 
   <div class="card">
-    <h2>📜 Bússola Mensal Omniconectada</h2>
+    <h2>📜 Bússola Mensal & Visão Tática</h2>
 
     <div class="topo-mes" id="mes-atual-label">Carregando Mês...</div>
 
     <div class="painel-meta">
       <span>📅 Data Base: <strong id="data-referencia">--/--/----</strong></span>
       <span>⏱️ Sincronizado (Rio de Janeiro): <strong id="hora-rio">--:--:--</strong></span>
-    </div>
-
-    <!-- RADAR OMNICONECTADO DOS MÓDULOS -->
-    <div class="grid-sensores">
-      <!-- 1. SENSORM DO DIA -->
-      <div class="sensor-card">
-        <div class="sensor-titulo">☀️ Foco de Hoje</div>
-        <div id="sensor-hoje-txt" style="color:var(--verde-elfico);">Carregando dia...</div>
-      </div>
-
-      <!-- 2. SENSOR DO CORPO -->
-      <div class="sensor-card">
-        <div class="sensor-titulo">🌿 Radar Corporal</div>
-        <div id="sensor-corpo-txt" style="color:var(--azul-infra);">Carregando corpo...</div>
-      </div>
-
-      <!-- 3. SENSOR DA MANUTENÇÃO QUINZENAL -->
-      <div class="sensor-card">
-        <div class="sensor-titulo">🛠️ Manutenção/Infra</div>
-        <div id="sensor-infra-txt" style="color:var(--texto-dourado);">Carregando infra...</div>
-      </div>
-    </div>
-
-    <!-- LEITURA DA SEMANA ATIVA -->
-    <div class="painel-semana-ativa">
-      <div class="semana-ativa-titulo">
-        <span><i class="fa-solid fa-eye"></i> VISÃO DA SEMANA ATIVA (<span id="id-semana-txt">Carregando...</span>)</span>
-        <span style="font-size:0.7rem; color: var(--verde-elfico);" id="cargas-semana-txt">Cargas: Sincronizando...</span>
-      </div>
-      <div class="grid-dias-semana-preview" id="container-preview-semana">
-        <!-- Puxado dinamicamente do ritmo_semanal -->
-      </div>
     </div>
 
     <!-- ESTEIRA VISUAL DOS 30 DIAS -->
@@ -477,7 +354,6 @@
     <div class="secao-bloco" style="border-left-color: var(--verde-elfico);">
       <div class="secao-titulo" style="color: var(--verde-elfico);">
         <span><i class="fa-solid fa-bullseye"></i> 🎯 Focos do Mês (Máximo 3)</span>
-        <button class="btn-mov" onclick="moverFocosParaSemana()">🗓️ Enviar p/ Semana</button>
       </div>
       <textarea id="focos-mes" rows="3" placeholder="1. Avanço no ENEM / Psicologia&#10;2. Hard Stop de Arquivos&#10;3. Projeto Tático..."></textarea>
     </div>
@@ -531,7 +407,6 @@
     const db = firebase.firestore();
 
     const hojeDataObj = new Date();
-    const docIdHoje = hojeDataObj.toLocaleDateString('pt-BR').replace(/\//g, '-');
     const meses = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
     const mesNome = meses[hojeDataObj.getMonth()];
     const ano = hojeDataObj.getFullYear();
@@ -545,17 +420,7 @@
       return d.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ' (' + d.toLocaleDateString('pt-BR') + ')';
     }
 
-    function getWeekNumber(d) {
-      d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-      d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-      var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-      return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-    }
-    const numSemanaAtiva = getWeekNumber(hojeDataObj);
-    const docSemanaId = `${ano}-W${numSemanaAtiva}`;
-    document.getElementById('id-semana-txt').innerText = `Semana ${numSemanaAtiva} • ${ano}`;
-
-    let eventosMes = {};
+    let eventosGerais = {};
     let dataKeyModalAtiva = null;
 
     // 1. ESCUTA O RITMO MENSAL
@@ -565,91 +430,25 @@
         if (d.focos) document.getElementById('focos-mes').value = d.focos;
         if (d.naoFazer) document.getElementById('nao-fazer').value = d.naoFazer;
         if (d.marcos) document.getElementById('marcos-mes').value = d.marcos;
-        if (d.eventos) eventosMes = d.eventos;
         if (d.atualizadoEmTexto) document.getElementById('hora-rio').innerText = d.atualizadoEmTexto;
         else document.getElementById('hora-rio').innerText = getHoraRioStr();
       } else {
         document.getElementById('hora-rio').innerText = getHoraRioStr();
       }
+    });
+
+    // 2. ESCUTA A COLEÇÃO CENTRAL DE EVENTOS POR DATA (Sincronizada em todos os painéis)
+    db.collection("agenda_eventos").onSnapshot(snapshot => {
+      eventosGerais = {};
+      snapshot.forEach(doc => {
+        if (doc.data().eventos) {
+          eventosGerais[doc.id] = doc.data().eventos;
+        }
+      });
       renderizarEsteira30();
     });
 
-    // 2. ESCUTA A LENTE SEMANAL
-    db.collection("ritmo_semanal").doc(docSemanaId).onSnapshot(doc => {
-      const containerPrev = document.getElementById('container-preview-semana');
-      const cargasTxt = document.getElementById('cargas-semana-txt');
-
-      if (doc.exists) {
-        const data = doc.data();
-        if (data.cargas) {
-          cargasTxt.innerText = `Casa: ${data.cargas.casa || '-'} | Loja: ${data.cargas.loja || '-'} | Studio: ${data.cargas.design || '-'} | Estudos: ${data.cargas.estudos || '-'}`;
-        }
-
-        const diasList = [
-          { id: 'seg', nome: 'SEG' },
-          { id: 'ter', nome: 'TER' },
-          { id: 'qua', nome: 'QUA' },
-          { id: 'qui', nome: 'QUI' },
-          { id: 'sex', nome: 'SEX' },
-          { id: 'sab', nome: 'SÁB' },
-          { id: 'dom', nome: 'DOM' }
-        ];
-
-        let htmlPrev = '';
-        diasList.forEach(d => {
-          const focoVal = (data.focos && data.focos[d.id]) ? data.focos[d.id] : 'Sem foco';
-          htmlPrev += `
-            <div class="box-dia-prev">
-              <div class="box-dia-prev-head">${d.nome}</div>
-              <div style="color:var(--texto-primario); word-break:break-word;">${focoVal}</div>
-            </div>
-          `;
-        });
-        containerPrev.innerHTML = htmlPrev;
-      } else {
-        containerPrev.innerHTML = '<p style="font-size:0.72rem; color:#aaa; margin:0; grid-column: span 7;">Nenhum ritmo semanal configurado para esta semana ainda.</p>';
-      }
-    });
-
-    // 3. ESCUTA O CICLO DIÁRIO DE HOJE
-    db.collection("ciclo_diario").doc(docIdHoje).onSnapshot(doc => {
-      const el = document.getElementById('sensor-hoje-txt');
-      if (doc.exists) {
-        const d = doc.data();
-        const foco = d.focoManha || d.focoTarde || "Dia em fluxo";
-        const totalTf = d.tarefas ? d.tarefas.length : 0;
-        const concTf = d.tarefas ? d.tarefas.filter(t => t.concluida).length : 0;
-        el.innerHTML = `<strong>${foco}</strong><br><span style="font-size:0.68rem; color:#aaa;">Tarefas: ${concTf}/${totalTf} concluídas</span>`;
-      } else {
-        el.innerText = "Sem foco definido para hoje.";
-      }
-    });
-
-    // 4. ESCUTA O RADAR CORPORAL
-    db.collection("jardim_florescimento").doc("radar_funcionamento").onSnapshot(doc => {
-      const el = document.getElementById('sensor-corpo-txt');
-      if (doc.exists && doc.data().registros && doc.data().registros.length > 0) {
-        const reg = doc.data().registros;
-        const u = reg[reg.length - 1];
-        el.innerHTML = `Bateria: <strong>${u.bateria || '🟢 Regulado'}</strong><br><span style="font-size:0.68rem; color:#aaa;">${u.corpo || 'Equilibrado'}</span>`;
-      } else {
-        el.innerText = "Nenhum check-in de hoje.";
-      }
-    });
-
-    // 5. ESCUTA A MANUTENÇÃO QUINZENAL
-    db.collection("infraestrutura").doc("manutencao_quinzenal").onSnapshot(doc => {
-      const el = document.getElementById('sensor-infra-txt');
-      if (doc.exists && doc.data().itens) {
-        const itens = doc.data().itens;
-        const pend = itens.filter(i => !i.concluido).length;
-        el.innerHTML = `Pendências Cíclicas: <strong>${pend} itens</strong><br><span style="font-size:0.68rem; color:#aaa;">Infra Ativa</span>`;
-      } else {
-        el.innerText = "Infra ok.";
-      }
-    });
-
-    // RENDERIZA A ESTEIRA DOS 30 DIAS
+    // RENDERIZA A ESTEIRA DOS 30 DIAS DO MÊS
     function renderizarEsteira30() {
       const container = document.getElementById('container-esteira-30');
       let html = '';
@@ -669,13 +468,13 @@
         if (dayIdx === 2) dancaTag = '<div class="tag-evento-30 tag-danca">💃 Zouk</div>';
         if (dayIdx === 3) dancaTag = '<div class="tag-evento-30">🏥 Terapia</div>';
 
-        const evtsDoDia = eventosMes[dataKey] || [];
+        const evtsDoDia = eventosGerais[dataKey] || [];
         let htmlEvts = '';
         evtsDoDia.forEach((ev, idx) => {
           htmlEvts += `
             <div class="tag-evento-30">
               <span>${ev}</span>
-              <button onclick="event.stopPropagation(); removerEventoMes('${dataKey}', ${idx})" style="background:none;border:none;color:#e07a5f;cursor:pointer;font-size:0.65rem;padding:0;">✖</button>
+              <button onclick="event.stopPropagation(); removerEventoData('${dataKey}', ${idx})" style="background:none;border:none;color:#e07a5f;cursor:pointer;font-size:0.65rem;padding:0;">✖</button>
             </div>
           `;
         });
@@ -713,38 +512,29 @@
     async function salvarEventoModal() {
       const txt = document.getElementById('modal-input-txt').value.trim();
       if (txt && dataKeyModalAtiva) {
-        if (!eventosMes[dataKeyModalAtiva]) eventosMes[dataKeyModalAtiva] = [];
-        eventosMes[dataKeyModalAtiva].push(txt);
+        const listaAtual = eventosGerais[dataKeyModalAtiva] || [];
+        listaAtual.push(txt);
+
+        await db.collection("agenda_eventos").doc(dataKeyModalAtiva).set({
+          eventos: listaAtual,
+          atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
         fecharModal();
-        await salvarMensal();
       }
     }
 
-    async function removerEventoMes(key, index) {
-      if (eventosMes[key]) {
-        eventosMes[key].splice(index, 1);
-        if (eventosMes[key].length === 0) delete eventosMes[key];
-        await salvarMensal();
-      }
-    }
-
-    async function moverFocosParaSemana() {
-      const focosTxt = document.getElementById('focos-mes').value.trim();
-      if (!focosTxt) return alert("Digite ao menos um foco no mês antes de enviar.");
-
-      try {
-        const docRef = db.collection("ritmo_semanal").doc(docSemanaId);
-        const docSnap = await docRef.get();
-        let focosAtuais = (docSnap.exists && docSnap.data().focos) ? docSnap.data().focos : {};
-        
-        const diaHojeKey = ['dom','seg','ter','qua','qui','sex','sab'][hojeDataObj.getDay()];
-        const textoAtual = focosAtuais[diaHojeKey] || '';
-        focosAtuais[diaHojeKey] = textoAtual ? `${textoAtual} | 🎯 Foco Mês: ${focosTxt}` : `🎯 Foco Mês: ${focosTxt}`;
-
-        await docRef.set({ focos: focosAtuais }, { merge: true });
-        alert(`🗓️ FOCOS ENVIADOS! Adicionados aos focos da Semana ${docSemanaId}.`);
-      } catch (e) {
-        alert("Erro ao mover focos para a semana.");
+    async function removerEventoData(key, index) {
+      if (eventosGerais[key]) {
+        eventosGerais[key].splice(index, 1);
+        if (eventosGerais[key].length === 0) {
+          await db.collection("agenda_eventos").doc(key).delete();
+        } else {
+          await db.collection("agenda_eventos").doc(key).set({
+            eventos: eventosGerais[key],
+            atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
       }
     }
 
@@ -758,7 +548,6 @@
         focos: document.getElementById('focos-mes').value.trim(),
         naoFazer: document.getElementById('nao-fazer').value.trim(),
         marcos: document.getElementById('marcos-mes').value.trim(),
-        eventos: eventosMes,
         atualizadoEmTexto: horaStr,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       }, { merge: true });
