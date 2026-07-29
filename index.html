@@ -291,7 +291,7 @@
       margin-top: 10px;
     }
 
-    /* MODAL DO CARD COMPLETO (CASCA DO CICLO COMPLETA) */
+    /* MODAL DO CARD COMPLETO (CASCA DO CICLO TÁTICA) */
     .modal-overlay {
       display: none;
       position: absolute;
@@ -379,6 +379,16 @@
       padding-bottom: 3px;
     }
 
+    .bar-acoes-copia {
+      display: flex;
+      gap: 6px;
+      background: rgba(197, 160, 89, 0.1);
+      padding: 6px;
+      border-radius: 4px;
+      border: 1px dashed rgba(197, 160, 89, 0.3);
+      flex-wrap: wrap;
+    }
+
     .modal-botoes {
       display: flex;
       justify-content: space-between;
@@ -392,9 +402,9 @@
       background: rgba(0,0,0,0.4);
       border: 1px solid var(--borda-dourada);
       color: var(--texto-primario);
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       cursor: pointer;
       font-family: var(--fonte-sub);
     }
@@ -467,6 +477,12 @@
     <div class="modal-overlay" id="modal-card">
       <div class="modal-box">
         <div class="modal-titulo" id="modal-card-titulo">🎴 CARD DO EVENTO / COMPROMISSO</div>
+
+        <!-- AÇÕES RÁPIDAS DE DUPLICAÇÃO E CÓPIA -->
+        <div class="bar-acoes-copia" id="box-acoes-duplicar" style="display:none;">
+          <button class="btn-modal" onclick="duplicarCardMesmoDia()">📋 Duplicar Neste Dia</button>
+          <button class="btn-modal" onclick="copiarParaOutraData()">👯 Copiar p/ Outra Data</button>
+        </div>
         
         <!-- IDENTIFICAÇÃO E DATA -->
         <div class="form-group">
@@ -722,6 +738,8 @@
     function abrirModalNovoCard(dataKey) {
       cardEmEdicao = null;
       document.getElementById('modal-card-titulo').innerText = '🎴 NOVO CARD DO EVENTO';
+      document.getElementById('box-acoes-duplicar').style.display = 'none';
+
       document.getElementById('card-titulo-input').value = '';
       document.getElementById('card-data-input').value = dataKey;
       document.getElementById('card-pilar-input').value = 'pessoal';
@@ -749,6 +767,8 @@
       if (!card) return;
       cardEmEdicao = card;
       document.getElementById('modal-card-titulo').innerText = '✏️ EDITAR CARD DO EVENTO';
+      document.getElementById('box-acoes-duplicar').style.display = 'flex';
+
       document.getElementById('card-titulo-input').value = card.titulo || '';
       document.getElementById('card-data-input').value = card.data || docIdHojeKey;
       document.getElementById('card-pilar-input').value = card.pilar || 'pessoal';
@@ -776,14 +796,10 @@
       cardEmEdicao = null;
     }
 
-    async function salvarCardAtual() {
-      const titulo = document.getElementById('card-titulo-input').value.trim();
-      const data = document.getElementById('card-data-input').value;
-      if (!titulo || !data) return alert("Título e Data são obrigatórios.");
-
-      const cardObj = {
-        titulo,
-        data,
+    function extrairObjetoFormulario() {
+      return {
+        titulo: document.getElementById('card-titulo-input').value.trim(),
+        data: document.getElementById('card-data-input').value,
         pilar: document.getElementById('card-pilar-input').value,
         frequencia: document.getElementById('card-freq-input').value,
         periodo: document.getElementById('card-periodo-input').value,
@@ -801,6 +817,11 @@
         concluido: cardEmEdicao ? (cardEmEdicao.concluido || false) : false,
         atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
       };
+    }
+
+    async function salvarCardAtual() {
+      const cardObj = extrairObjetoFormulario();
+      if (!cardObj.titulo || !cardObj.data) return alert("Título e Data são obrigatórios.");
 
       if (cardEmEdicao) {
         await db.collection("agenda_cards").doc(cardEmEdicao.id).set(cardObj, { merge: true });
@@ -808,6 +829,26 @@
         await db.collection("agenda_cards").add(cardObj);
       }
 
+      fecharModalCard();
+    }
+
+    async function duplicarCardMesmoDia() {
+      const cardObj = extrairObjetoFormulario();
+      cardObj.titulo = `${cardObj.titulo} (Cópia)`;
+      delete cardObj.id;
+      await db.collection("agenda_cards").add(cardObj);
+      fecharModalCard();
+    }
+
+    async function copiarParaOutraData() {
+      const novaData = prompt("Digite a nova data para copiar o Card (YYYY-MM-DD):", document.getElementById('card-data-input').value);
+      if (!novaData) return;
+
+      const cardObj = extrairObjetoFormulario();
+      cardObj.data = novaData;
+      delete cardObj.id;
+
+      await db.collection("agenda_cards").add(cardObj);
       fecharModalCard();
     }
 
